@@ -3,7 +3,7 @@ from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 from dino_runner.components.score import Score
 
-from dino_runner.utils.constants import BG, FONT_STYLE, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
+from dino_runner.utils.constants import BG, DINO_START, FONT_STYLE, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
 
 
 class Game:
@@ -88,7 +88,11 @@ class Game:
             message_rect.center = (half_screen_width, half_screen_height)
             self.screen.blit(message, message_rect)
         else:
-            pass
+            font = pygame.font.Font(FONT_STYLE, 30)
+            message = font.render('Press any keyboard to restart', True, (0, 0, 0))
+            message_rect = message.get_rect()
+            message_rect.center = (half_screen_width, half_screen_height)
+            self.screen.blit(message, message_rect)
             print(self.death_count)
 
         self.screen.blit(DINO_START, (half_screen_width - 20, half_screen_height - 140))
