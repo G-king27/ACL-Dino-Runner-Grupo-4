@@ -16,5 +16,5 @@ class SmallCactus(Obstacle):
     Y_POS_SMALL_CACTUS = 325
     
     def __init__(self, images: list[Surface], type):
-        super(). __init__(images, randint(0, 2))
+        super(). __init__(images, randint(0, 2)
         self.rect.y = self.Y_POS_SMALL_CACTUS
