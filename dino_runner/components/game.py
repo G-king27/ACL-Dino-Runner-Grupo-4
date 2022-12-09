@@ -1,10 +1,14 @@
 import pygame
+from dino_runner.Text_utils import draw_message_component
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
+from dino_runner.components.player_hearts.player_heart_manager import PlayerHeartManager
+from dino_runner.components.power_ups.power_up_manager import PowerUpManager
 from dino_runner.components.score import Score
 
 from dino_runner.utils.constants import BG, DINO_START, FONT_STYLE, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
 
+INITIAL_GAME_SPEED = 20
 
 class Game:
     def __init__(self):
@@ -20,6 +24,8 @@ class Game:
 
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
+        self.player_heart_manager = PlayerHeartManager()
+        self.power_up_manager = PowerUpManager()
         self.score = Score()
         self.death_count = 0
 
@@ -37,10 +43,18 @@ class Game:
         # Game loop: events - update - draw
         self.playing = True
         self.obstacle_manager.reset_obstacles()
+        self.score.current_score = 0
+        self.game_speed = 20
         while self.playing:
             self.events()
             self.update()
             self.draw()
+
+    def initialize_game(self):
+        self.obstacle_manager.reset_obstacles()
+        self.score.current_score = 0
+        self.game_speed =INITIAL_GAME_SPEED
+        self.player_heart_manager.reset_heart_count()
 
     def events(self):
         for event in pygame.event.get():
@@ -53,6 +67,7 @@ class Game:
         self.player.update(user_input)
         self.obstacle_manager.update(self)
         self.score.update(self)
+        self.power_up_manager.update(self.score.current_score, self.game_speed, self.player)
 
     def draw(self):
         self.clock.tick(FPS)
@@ -61,6 +76,8 @@ class Game:
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
         self.score.draw(self.screen)
+        self.player_heart_manager.draw(self.screen)
+        self.power_up_manager.draw(self.screen)
         pygame.display.update()
         pygame.display.flip()
 
@@ -88,12 +105,22 @@ class Game:
 
         half_screen_width = SCREEN_WIDTH // 2
         half_screen_height = SCREEN_HEIGHT // 2
-        if not self.death_count:
-            self.text_place (30, half_screen_width, half_screen_height; "Press any key to start", (0, 0, 20))
+        if self.death_count == 0:
+            draw_message_component("Press any key to start", self.screen)
+
         else:
-            self.place_text(35, 550, 400, "Press any key to restart", (0, 0, 0))
-            self.place_text(22, 120, 50, f'MAX SCORE: {self.score.max_score}', (240, 0, 0))
-            self.place_text(22, 120, 50, f'DEATH COUNT: {self.death_count}', (240, 0, 0))
+            draw_message_component("Press any key to restart", self.screen)
+            draw_message_component(
+                f"Your score: {self.score.current_score}",
+                self.screen,
+                pos_y_center = half_screen_width + 50
+            )
+            draw_message_component(
+                f"Death Count: {self.death_count}",
+                self.screen,
+                pos_y_center = half_screen_width + 100
+            )
+            print(self.death_count)
 
         self.screen.blit(DINO_START, (half_screen_width - 20, half_screen_height - 140))
         pygame.display.flip()
