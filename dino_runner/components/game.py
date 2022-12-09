@@ -76,24 +76,24 @@ class Game:
     def draw_score(self):
         pass
 
+    def place_text(self, font_sizes, x_pos, y_pos, text_message, color):
+        font = pygame.font.Font(FONT_STYLE, font_sizes)
+        text = font.render(text_message, True, color)
+        text_rect = text.get_rect()
+        text_rect.center = (x_pos, y_pos)
+        self.screen.blit(text, text_rect)
+
     def show_menu(self):
         self.screen.fill((255, 255, 255))
 
         half_screen_width = SCREEN_WIDTH // 2
         half_screen_height = SCREEN_HEIGHT // 2
         if not self.death_count:
-            font = pygame.font.Font(FONT_STYLE, 30)
-            message = font.render('Press any keyboard to start', True, (0, 0, 0))
-            message_rect = message.get_rect()
-            message_rect.center = (half_screen_width, half_screen_height)
-            self.screen.blit(message, message_rect)
+            self.text_place (30, half_screen_width, half_screen_height; "Press any key to start", (0, 0, 20))
         else:
-            font = pygame.font.Font(FONT_STYLE, 30)
-            message = font.render('Press any keyboard to restart', True, (0, 0, 0))
-            message_rect = message.get_rect()
-            message_rect.center = (half_screen_width, half_screen_height)
-            self.screen.blit(message, message_rect)
-            print(self.death_count)
+            self.place_text(35, 550, 400, "Press any key to restart", (0, 0, 0))
+            self.place_text(22, 120, 50, f'MAX SCORE: {self.score.max_score}', (240, 0, 0))
+            self.place_text(22, 120, 50, f'DEATH COUNT: {self.death_count}', (240, 0, 0))
 
         self.screen.blit(DINO_START, (half_screen_width - 20, half_screen_height - 140))
         pygame.display.flip()
