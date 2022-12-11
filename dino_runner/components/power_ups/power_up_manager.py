@@ -16,7 +16,7 @@ class PowerUpManager:
                 self.power_ups.append(Shield())
 
     def update(self, current_score, game_speed, player):
-        self.generate_power_up(current_score)
+        self.generate_power_ups(current_score)
         for power_up in self.power_ups:
             power_up.update(game_speed, self.power_ups)
             if player.dino_rect.colliderect(power_up.rect):

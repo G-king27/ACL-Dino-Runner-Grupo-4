@@ -6,6 +6,7 @@ from dino_runner.utils.constants import FONT_STYLE
 class Score:
     def __init__(self):
         self.current_score = 0
+        self.max_score = 0
 
     def update(self, game):
         self.current_score += 1
@@ -27,5 +28,5 @@ class Score:
 
         message = font.render(f'Max Score: {self.max_score}', True, (0, 0, 0))
         message_rect = message.get_rect()
-        message_rect.center (X_POS_MAX_SCORE, Y_POS_MAX_SCORE)
+        message_rect.center = (X_POS_MAX_SCORE, Y_POS_MAX_SCORE)
         screen.blit(message, message_rect)

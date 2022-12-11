@@ -9,8 +9,8 @@ FONT_STYLE = "freesansbold.ttf"
 def draw_message_component (
     message,
     screen, 
-    font_color,
-    font_size,
+    font_color =FONT_COLOR,
+    font_size = FONT_SIZE,
     pos_y_center = SCREEN_HEIGHT // 2,
     pos_x_center = SCREEN_WIDTH // 2
 ):
@@ -18,4 +18,4 @@ def draw_message_component (
     text = font.render(message, True, font_color)
     text_rect = text.get_rect()
     text_rect.center = (pos_x_center, pos_y_center)
-    screen.blit(message, text_rect)
+    screen.blit(text, text_rect)
